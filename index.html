@@ -108,7 +108,7 @@
             font-family: 'Urbanist', 'Noto Sans Thai', sans-serif;
             position: absolute;
             top: 0;
-            display: none;
+            display: none; /* ซ่อนหน้าไว้เป็นค่าเริ่มต้นในจอคอม */
             flex-direction: column;
             padding: 60px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
@@ -117,6 +117,7 @@
             border: 1px solid rgba(34, 197, 94, 0.2);
         }
 
+        /* เปิดโชว์เฉพาะหน้าที่มีคลาส active */
         .slide-container.active {
             display: flex;
             opacity: 1;
@@ -221,7 +222,6 @@
         }
         .timeline-date { color: var(--primary-green); font-weight: 700; font-size: 20px; margin-bottom: 5px; }
 
-        /* --- Education Sub-Slideshow CSS --- */
         .sub-slideshow-container {
             width: 100%;
             height: 450px;
@@ -258,42 +258,44 @@
         }
 
         /* ==========================================================================
-           --- MOBILE RESPONSIVE DESIGN (แก้ไขจุดแสดงผลครึ่งจอในมือถือ) ---
+           --- MOBILE RESPONSIVE DESIGN (แก้ไขตัวซ้อนและคุมหน้าจอมือถือ) ---
            ========================================================================== */
         @media (max-width: 768px) {
             body {
                 align-items: flex-start;
                 overflow-y: auto;
+                display: block; /* เปลี่ยนโครงสร้างหลักให้เลื่อนลงแนวตั้งอิสระ */
             }
 
-            /* ยกเลิกการล็อกสเกลและตำแหน่งของคอมพิวเตอร์ เปลี่ยนมาเป็นแบบเลื่อนลง (Scroll) */
+            /* ปลดล็อกระบบแผ่นสไลด์ของจอคอม ปรับให้แสดงผลเรียงต่อกันยาวลงมาในมือถือ */
             .slide-container {
                 width: 100% !important;
                 height: auto !important;
                 position: relative !important;
-                display: flex !important; /* แสดงทุกหน้าต่อกันเมื่ออยู่ในมือถือเพื่อให้อ่านง่าย */
+                display: flex !important; /* บังคับให้โชว์ทุกหน้าต่อกันในมือถือ */
                 opacity: 1 !important;
                 transform: none !important;
-                padding: 30px 20px !important;
-                margin-bottom: 20px;
-                box-shadow: none !important;
+                padding: 40px 20px !important;
                 border-left: none !important;
                 border-right: none !important;
+                border-top: none !important;
+                border-bottom: 1px solid rgba(34, 197, 94, 0.2) !important;
                 border-radius: 0 !important;
+                background-color: rgba(2, 6, 23, 0.95) !important;
             }
 
-            /* ซ่อนจุดนำทางในมือถือเนื่องจากเปลี่ยนเป็นระบบเลื่อนธรรมดา */
+            /* ซ่อนจุดนำทางเพื่อไม่ให้บังหน้าจอมือถือ */
             .navigation-dots {
                 display: none !important;
             }
 
-            /* ปรับขนาดตัวอักษรให้พอดีกับจอภาพมือถือ */
-            .slide-title { font-size: 30px !important; }
-            h1 { font-size: 40px !important; }
+            /* ปรับขนาดฟอนต์ให้พอดีไม่ล้นจอ */
+            .slide-title { font-size: 28px !important; }
+            h1 { font-size: 38px !important; }
             p, li { font-size: 18px !important; }
             .timeline-item h3, .tile h3 { font-size: 22px !important; }
 
-            /* ปรับการจัด Layout จากแนวนอนคู่ขนาน ให้กลายมาเป็นแนวตั้ง */
+            /* ปรับกริดแนวนอนให้ตกลงมาเรียงเป็นแถวเดี่ยว */
             .two-column {
                 grid-template-columns: 1fr !important;
                 gap: 30px !important;
@@ -315,6 +317,7 @@
             
             .tile {
                 padding: 25px !important;
+                width: 100% !important;
             }
         }
     </style>
@@ -487,7 +490,7 @@
         // --- Main Navigation Logic ---
         function createNavigationDots() {
             const container = document.getElementById('dotsContainer');
-            container.innerHTML = ''; // เคลียร์จุดเดิมก่อนสร้างใหม่ป้องกันปัญหา
+            container.innerHTML = ''; 
             for (let i = 0; i < totalSlides; i++) {
                 const dot = document.createElement('button');
                 dot.classList.add('dot');
@@ -498,7 +501,7 @@
         }
 
         function goToSlide(index, isManual = false) {
-            // ทำงานเฉพาะหน้าจอคอมพิวเตอร์ (จอใหญ่กว่า 768px)
+            // ระบบสไลด์จะทำงานเฉพาะบนคอมพิวเตอร์ (จอใหญ่กว่า 768px)
             if (window.innerWidth > 768) {
                 clearTimeout(slideTimer);
                 slides[currentSlideIndex].classList.remove('active');
@@ -507,7 +510,7 @@
                 
                 currentSlideIndex = index;
                 slides[currentSlideIndex].classList.add('active');
-                if(dots[currentSlideIndex]) dots[currentSlideIndex].active;
+                if(dots[currentSlideIndex]) dots[currentSlideIndex].classList.add('active');
                 
                 autoScaleSlide();
                 const dynamicTime = isManual ? manualDuration : normalDuration;
@@ -527,17 +530,28 @@
                 const targetWidth = 1280;
                 const currentWidth = window.innerWidth;
                 const scaleRatio = currentWidth / targetWidth;
-                slides.forEach(slide => {
+                
+                // คืนค่าระบบซ่อนสไลด์ในคอมพิวเตอร์
+                slides.forEach((slide, idx) => {
                     slide.style.transformOrigin = 'top center';
                     slide.style.transform = `scale(${scaleRatio})`;
                     slide.style.position = 'absolute';
+                    if (idx === currentSlideIndex) {
+                        slide.style.display = 'flex';
+                    } else {
+                        slide.style.display = 'none';
+                    }
                 });
+                document.getElementById('dotsContainer').style.display = 'flex';
             } else {
-                // คืนค่ารูปแบบบล็อกปกติให้มือถือ
+                // สำหรับมือถือ: บังคับเปิดทุกหน้าเรียงต่อกัน และล้างค่าสเกลคอมพิวเตอร์ออก
                 slides.forEach(slide => {
                     slide.style.transform = 'none';
                     slide.style.position = 'relative';
+                    slide.style.display = 'flex';
+                    slide.style.opacity = '1';
                 });
+                document.getElementById('dotsContainer').style.display = 'none';
             }
         }
 
