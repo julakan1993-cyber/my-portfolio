@@ -10,47 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
- .tile { 
-            background: var(--card-bg); 
-            border: 1px solid rgba(34, 197, 94, 0.2); /* ปรับขอบเริ่มต้นให้เห็นแสงอ่อนๆ */
-            padding: 40px; border-radius: 24px; 
-            flex: 1; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
-            position: relative;
-            overflow: hidden;
-            
-            /* เพิ่มแอนิเมชั่นไฟกระพริบวิ่งรอบขอบกล่อง */
-            animation: scifiBorderGlow 6s infinite alternate ease-in-out;
-        }
-        
-        /* สไตล์ตอนเมาส์ชี้ (Hover) ให้ไฟเรืองแสงเข้มขึ้นทันที */
-        .tile:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px var(--primary-green);
-            border-color: #4ade80;
-        }
-
-        /* เอฟเฟกต์แสงวิ่งรอบขอบกล่อง (Pulse Border) */
-        @keyframes scifiBorderGlow {
-            0% { border-color: rgba(34, 197, 94, 0.2); box-shadow: 0 0 5px rgba(34, 197, 94, 0.1); }
-            50% { border-color: rgba(34, 197, 94, 0.6); box-shadow: 0 0 15px rgba(34, 197, 94, 0.3); }
-            100% { border-color: rgba(34, 197, 94, 0.2); box-shadow: 0 0 5px rgba(34, 197, 94, 0.1); }
-        }
-span { 
-            color: var(--primary-green); 
-            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
-            background: linear-gradient(90deg, #22c55e, #a7f3d0, #22c55e);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: textGlowRun 4s linear infinite;
-        }
-
-        @keyframes textGlowRun {
-            0% { background-position: 0% center; filter: drop-shadow(0 0 2px #22c55e); }
-            50% { filter: drop-shadow(0 0 8px #4ade80); }
-            100% { background-position: 200% center; filter: drop-shadow(0 0 2px #22c55e); }
-        }
         :root {
             --primary-green: #22c55e;
             --primary-green-glow: rgba(34, 197, 94, 0.3);
@@ -68,7 +27,7 @@ span {
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -92,43 +51,40 @@ span {
             100% { background-position: 50px 50px; }
         }
 
-       .scifi-lines {
+        .scifi-lines {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: -1;
         }
 
-        /* เส้นแนวนอน (บน) - เรืองแสงเข้มขึ้น */
         .scifi-lines::before {
             content: '';
             position: absolute;
-            width: 400px; /* เพิ่มความยาวของเส้นแสง */
-            height: 4px;  /* เพิ่มความหนาของเส้นแสง */
+            width: 400px;
+            height: 4px;
             top: 25%;
             left: -400px;
             background: linear-gradient(90deg, transparent, #22c55e, #4ade80, #22c55e, transparent);
-            box-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e; /* เพิ่มการฟุ้งเรืองแสงแบบ Neon Glow */
-            opacity: 0.8; /* ปรับให้สว่างชัดขึ้น */
-            animation: scifiLineRun 5s infinite linear; /* ปรับให้วิ่งเร็วขึ้นเล็กน้อย */
+            box-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e;
+            opacity: 0.8;
+            animation: scifiLineRun 5s infinite linear;
         }
 
-        /* เส้นแนวตั้ง (ขวา) - เรืองแสงเข้มขึ้น */
         .scifi-lines::after {
             content: '';
             position: absolute;
-            width: 4px;   /* เพิ่มความหนาของเส้นแสง */
-            height: 400px; /* เพิ่มความยาวของเส้นแสง */
+            width: 4px;
+            height: 400px;
             top: -400px;
             left: 75%;
             background: linear-gradient(180deg, transparent, #22c55e, #4ade80, #22c55e, transparent);
-            box-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e; /* เพิ่มการฟุ้งเรืองแสงแบบ Neon Glow */
-            opacity: 0.7; /* ปรับให้สว่างชัดขึ้น */
+            box-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e;
+            opacity: 0.7;
             animation: scifiLineRunVertical 7s infinite linear;
-            animation-delay: 2.5s; /* สลับจังหวะการวิ่งไม่ให้พร้อมกัน */
+            animation-delay: 2.5s;
         }
 
-        /* เอฟเฟกต์การวิ่งคำนวณระยะหลบขอบจอให้เนียนตา */
         @keyframes scifiLineRun {
             0% { transform: translate(0, 0); opacity: 0; }
             10% { opacity: 0.8; }
@@ -141,16 +97,6 @@ span {
             10% { opacity: 0.7; }
             90% { opacity: 0.7; }
             100% { transform: translate(0, calc(100vh + 400px)); opacity: 0; }
-        }
-
-        @keyframes scifiLineRun {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(calc(100vw + 200px), 0); }
-        }
-
-        @keyframes scifiLineRunVertical {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(0, calc(100vh + 200px)); }
         }
 
         /* --- Slide Container --- */
@@ -209,26 +155,50 @@ span {
         }
 
         /* --- Content Styling --- */
-        .slide-title { font-size: 44px; font-weight: 700; margin-bottom: 10px; border-left: 10px solid var(--primary-green); padding-left: 25px; text-transform: uppercase; }
+        .slide-title { font-size: 44px; font-weight: 700; margin-bottom: 20px; border-left: 10px solid var(--primary-green); padding-left: 25px; text-transform: uppercase; }
         p, li { font-size: 22px; color: var(--text-muted); line-height: 1.5; }
-        span { color: var(--primary-green); }
-        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; transform: translateY(-45px);}
+        
+        span { 
+            color: var(--primary-green); 
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            background: linear-gradient(90deg, #22c55e, #a7f3d0, #22c55e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlowRun 4s linear infinite;
+        }
+
+        @keyframes textGlowRun {
+            0% { background-position: 0% center; filter: drop-shadow(0 0 2px #22c55e); }
+            50% { filter: drop-shadow(0 0 8px #4ade80); }
+            100% { background-position: 200% center; filter: drop-shadow(0 0 2px #22c55e); }
+        }
+
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; }
         .two-column { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
         .tiled-content { display: flex; gap: 25px; width: 100%; }
         
         .tile { 
             background: var(--card-bg); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(34, 197, 94, 0.2); 
             padding: 40px; border-radius: 24px; 
-            flex: 1; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
+            flex: 1; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
             position: relative;
             overflow: hidden;
+            animation: scifiBorderGlow 6s infinite alternate ease-in-out;
         }
         
         .tile:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
-            border-color: rgba(34, 197, 94, 0.5);
+            box-shadow: 0 0 25px var(--primary-green);
+            border-color: #4ade80;
+        }
+
+        @keyframes scifiBorderGlow {
+            0% { border-color: rgba(34, 197, 94, 0.2); box-shadow: 0 0 5px rgba(34, 197, 94, 0.1); }
+            50% { border-color: rgba(34, 197, 94, 0.6); box-shadow: 0 0 15px rgba(34, 197, 94, 0.3); }
+            100% { border-color: rgba(34, 197, 94, 0.2); box-shadow: 0 0 5px rgba(34, 197, 94, 0.1); }
         }
 
         .icon-box { font-size: 40px; color: var(--primary-green); margin-bottom: 25px; }
@@ -286,6 +256,67 @@ span {
             text-align: center;
             font-size: 18px;
         }
+
+        /* ==========================================================================
+           --- MOBILE RESPONSIVE DESIGN (แก้ไขจุดแสดงผลครึ่งจอในมือถือ) ---
+           ========================================================================== */
+        @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+                overflow-y: auto;
+            }
+
+            /* ยกเลิกการล็อกสเกลและตำแหน่งของคอมพิวเตอร์ เปลี่ยนมาเป็นแบบเลื่อนลง (Scroll) */
+            .slide-container {
+                width: 100% !important;
+                height: auto !important;
+                position: relative !important;
+                display: flex !important; /* แสดงทุกหน้าต่อกันเมื่ออยู่ในมือถือเพื่อให้อ่านง่าย */
+                opacity: 1 !important;
+                transform: none !important;
+                padding: 30px 20px !important;
+                margin-bottom: 20px;
+                box-shadow: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-radius: 0 !important;
+            }
+
+            /* ซ่อนจุดนำทางในมือถือเนื่องจากเปลี่ยนเป็นระบบเลื่อนธรรมดา */
+            .navigation-dots {
+                display: none !important;
+            }
+
+            /* ปรับขนาดตัวอักษรให้พอดีกับจอภาพมือถือ */
+            .slide-title { font-size: 30px !important; }
+            h1 { font-size: 40px !important; }
+            p, li { font-size: 18px !important; }
+            .timeline-item h3, .tile h3 { font-size: 22px !important; }
+
+            /* ปรับการจัด Layout จากแนวนอนคู่ขนาน ให้กลายมาเป็นแนวตั้ง */
+            .two-column {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+
+            .tiled-content {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+
+            .slide-container:last-of-type div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            .sub-slideshow-container {
+                height: 250px !important;
+            }
+            
+            .tile {
+                padding: 25px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -308,13 +339,13 @@ span {
                 <div>
                     <div class="timeline-item">
                         <div class="timeline-date">ระดับปริญญาตรี</div>
-                        <h3 style="font-size: 28px; color: #fff; margin-bottom: 10px;">มหาวิทยาลัยวลัยลักษณ์</h3>
-                        <p>สำเร็จการศึกษาระดับปริญญาตรี สำนักวิชาสารสนเทศศาสตร์ 
- 						<p>สาขาเทคโนโลยีมัลติมีเดียและแอนิเมชั่น พัฒนาทักษะและกระบวนการคิดวิเคราะห์อย่างเป็นระบบ เพื่อปรับใช้กับการทำงานจริง</p>
+                        <h3 style="color: #fff; margin-bottom: 10px;">มหาวิทยาลัยวลัยลักษณ์</h3>
+                        <p>สำเร็จการศึกษาระดับปริญญาตรี สำนักวิชาสารสนเทศศาสตร์</p>
+                        <p style="margin-top: 10px;">สาขาเทคโนโลยีมัลติมีเดียและแอนิเมชั่น พัฒนาทักษะและกระบวนการคิดวิเคราะห์อย่างเป็นระบบ เพื่อปรับใช้กับการทำงานจริง</p>
                     </div>
                     <div class="timeline-item" style="margin-bottom: 0;">
                         <div class="timeline-date">Continuous Learning</div>
-                        <h3 style="font-size: 28px; color: #fff; margin-bottom: 10px;">การเรียนรู้และพัฒนาตนเอง</h3>
+                        <h3 style="color: #fff; margin-bottom: 10px;">การเรียนรู้และพัฒนาตนเอง</h3>
                         <p>ศึกษาเพิ่มเติมด้าน Data Management, Web Development และเครื่องมือ AI เพื่อการทำงานที่มีประสิทธิภาพ</p>
                     </div>
                 </div>
@@ -326,13 +357,13 @@ span {
                         <div class="sub-slide-overlay">Walailak University Campus</div>
                     </div>
                     <div class="sub-slide" style="background-image: url('waan.png');">
-                        <div class="sub-slide-overlay"></div>
+                        <div class="sub-slide-overlay">Design Project</div>
                     </div>
-                    <div class="sub-slide" style="background-image: url('03.png">
+                    <div class="sub-slide" style="background-image: url('03.png');">
                         <div class="sub-slide-overlay">Data Management</div>
                     </div>
                     <div class="sub-slide" style="background-image: url('04.png');">
-                        <div class="sub-slide-overlay"></div>
+                        <div class="sub-slide-overlay">Digital Infrastructure</div>
                     </div>
                 </div>
             </div>
@@ -344,16 +375,17 @@ span {
         <div class="content-area">
             <div class="timeline-item">
                 <div class="timeline-date">ปัจจุบัน</div>
-                <h3 style="font-size: 28px; color: #fff; margin-bottom: 10px;">Store Systems Support | Makro (CP Axtra)</h3>
+                <h3 style="color: #fff; margin-bottom: 10px;">Store Systems Support | Makro (CP Axtra)</h3>
                 <p>ดูแลและสนับสนุนระบบร้านค้า แก้ไขปัญหาทางเทคนิคเพื่อให้การดำเนินงานภายในสาขาเป็นไปอย่างราบรื่น</p>
             </div>
             <div class="timeline-item">
                 <div class="timeline-date">ประสบการณ์ก่อนหน้า</div>
-                <h3 style="font-size: 28px; color: #fff; margin-bottom: 10px;">Non-Food Management | Makro</h3>
+                <h3 style="color: #fff; margin-bottom: 10px;">Non-Food Management | Makro</h3>
                 <p>ควบคุมสต็อกสินค้า ลดยอดสูญเสีย และสร้างมาตรฐานในการให้บริการลูกค้า</p>
             </div>
             <div class="timeline-item" style="margin-bottom: 0;">
-                <h3 style="font-size: 28px; color: #fff; margin-bottom: 10px;">"เชกเกอร์" (Checker) Specialist</h3>
+                <div class="timeline-date">Inbound & Outbound Logistics</div>
+                <h3 style="color: #fff; margin-bottom: 10px;">"เชกเกอร์" (Checker) Specialist</h3>
                 <p>ตรวจสอบและควบคุมคุณภาพสินค้าขาเข้า-ขาออก (Inbound/Outbound) ให้ตรงตามเอกสาร PO และมาตรฐาน 100%</p>
             </div>
         </div>
@@ -365,17 +397,17 @@ span {
             <div class="tiled-content">
                 <div class="tile">
                     <div class="icon-box"><i class="fa-solid fa-file-excel"></i></div>
-                    <h3 style="font-size: 24px; margin-bottom: 15px; color: #fff;">Microsoft Excel</h3>
+                    <h3 style="margin-bottom: 15px; color: #fff;">Microsoft Excel</h3>
                     <p style="font-size: 18px;">VLOOKUP, IF, และการสรุปผลข้อมูลด้วย Pivot Table ในระดับปานกลาง</p>
                 </div>
                 <div class="tile">
                     <div class="icon-box"><i class="fa-solid fa-file-word"></i></div>
-                    <h3 style="font-size: 24px; margin-bottom: 15px; color: #fff;">Microsoft Word</h3>
+                    <h3 style="margin-bottom: 15px; color: #fff;">Microsoft Word</h3>
                     <p style="font-size: 18px;">จัดพิมพ์รายงาน บันทึกข้อความ และโครงสร้างเอกสารมาตรฐานให้เป็นระเบียบ</p>
                 </div>
                 <div class="tile" style="background: rgba(34, 197, 94, 0.08); border: 1px solid var(--primary-green);">
                     <div class="icon-box"><i class="fa-solid fa-file-powerpoint"></i></div>
-                    <h3 style="font-size: 24px; margin-bottom: 15px; color: #fff;">MS PowerPoint</h3>
+                    <h3 style="margin-bottom: 15px; color: #fff;">MS PowerPoint</h3>
                     <p style="font-size: 18px;">ออกแบบสไลด์นำเสนอข้อมูลเชิงอินโฟกราฟิกเพื่อการสื่อสารที่เข้าใจง่าย</p>
                 </div>
             </div>
@@ -387,26 +419,19 @@ span {
         <div class="content-area">
             <div class="two-column">
                 <div>
-                    <h3 style="font-size: 36px; color: #fff; margin-bottom: 20px;">Photography</h3>
- <ul>
-                        <li>   <p style="margin-bottom: 25px;">ทักษะการถ่ายภาพและจัดองค์ประกอบภาพเพื่อสนับสนุนการผลิตสื่อดิจิทัล
-</p></li>
-                       
+                    <h3 style="font-size: 32px; color: #fff; margin-bottom: 15px;">Photography</h3>
+                    <ul>
+                        <li><p style="margin-bottom: 20px;">ทักษะการถ่ายภาพและจัดองค์ประกอบภาพเพื่อสนับสนุนการผลิตสื่อดิจิทัล</p></li>
                     </ul>
-<h3 style="font-size: 36px; color: #fff; margin-bottom: 20px;">Basic IT Support</h3>
- <ul>
-                        <li>สามารถติดตั้งซอฟต์แวร์และแก้ไขปัญหาคอมพิวเตอร์พื้นฐานได้ </li>
-                                                            
-			<li>สามารถพัฒนาและออกแบบเว็บไซต์พื้นฐานได้</li>
-                                                       
-			 <li>มีทักษะการเขียนโค้ดและสร้างเว็บไซต์พื้นฐานได้</li>
-                                  
-
-
-         
+                    <h3 style="font-size: 32px; color: #fff; margin-bottom: 15px; margin-top: 15px;">Basic IT & Web Support</h3>
+                    <ul>
+                        <li>สามารถติดตั้งซอฟต์แวร์และแก้ไขปัญหาคอมพิวเตอร์พื้นฐานได้</li>
+                        <li>สามารถพัฒนาและออกแบบเว็บไซต์พื้นฐานได้</li>
+                        <li>มีทักษะการเขียนโค้ดและสร้างเว็บไซต์พื้นฐานได้</li>
+                    </ul>
                 </div>
-                <div class="tile" style="text-align: center; padding: 50px;">
-                    <i class="fa-solid fa-code" style="font-size: 100px; color: var(--primary-green); margin-bottom: 20px;"></i>
+                <div class="tile" style="text-align: center; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <i class="fa-solid fa-code" style="font-size: 80px; color: var(--primary-green); margin-bottom: 20px;"></i>
                     <p style="color: #fff; font-weight: 700;">HTML / CSS / JS</p>
                 </div>
             </div>
@@ -415,23 +440,23 @@ span {
 
     <div class="slide-container">
         <div class="content-area" style="text-align: center;">
-            <h2 style="font-size: 70px; color: #fff; margin-bottom: 10px;">LET'S <span>WORK</span> TOGETHER</h2>
-            <p style="font-size: 26px; margin-bottom: 50px;">พร้อมนำทักษะทั้งหมดมาช่วยขับเคลื่อนหน่วยงานของท่าน</p>
+            <h2 style="font-size: 50px; color: #fff; margin-bottom: 10px;">LET'S <span>WORK</span> TOGETHER</h2>
+            <p style="font-size: 24px; margin-bottom: 40px;">พร้อมนำทักษะทั้งหมดมาช่วยขับเคลื่อนหน่วยงานของท่าน</p>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 900px; margin: 0 auto; width: 100%;">
-                <div class="tile" style="padding: 30px;">
-                    <i class="fa-solid fa-envelope" style="font-size: 35px; color: var(--primary-green); margin-bottom: 15px;"></i>
-                    <h4 style="color: #fff;">Email</h4>
-                    <p style="font-size: 18px;">Julakan.1993@gmail.co.th</p>
+                <div class="tile" style="padding: 25px;">
+                    <i class="fa-solid fa-envelope" style="font-size: 30px; color: var(--primary-green); margin-bottom: 15px;"></i>
+                    <h4 style="color: #fff; margin-bottom: 5px;">Email</h4>
+                    <p style="font-size: 16px; word-break: break-all;">Julakan.1993@gmail.co.th</p>
                 </div>
-                <div class="tile" style="padding: 30px;">
-                    <i class="fa-solid fa-phone" style="font-size: 35px; color: var(--primary-green); margin-bottom: 15px;"></i>
-                    <h4 style="color: #fff;">Phone</h4>
-                    <p style="font-size: 18px;">081-169-1900</p>
+                <div class="tile" style="padding: 25px;">
+                    <i class="fa-solid fa-phone" style="font-size: 30px; color: var(--primary-green); margin-bottom: 15px;"></i>
+                    <h4 style="color: #fff; margin-bottom: 5px;">Phone</h4>
+                    <p style="font-size: 16px;">081-169-1900</p>
                 </div>
-                <div class="tile" style="padding: 30px;">
-                    <i class="fa-solid fa-location-dot" style="font-size: 35px; color: var(--primary-green); margin-bottom: 15px;"></i>
-                    <h4 style="color: #fff;">Location</h4>
-                    <p style="font-size: 18px;">Kutbak,Sakonnakhon,Thailand</p>
+                <div class="tile" style="padding: 25px;">
+                    <i class="fa-solid fa-location-dot" style="font-size: 30px; color: var(--primary-green); margin-bottom: 15px;"></i>
+                    <h4 style="color: #fff; margin-bottom: 5px;">Location</h4>
+                    <p style="font-size: 16px;">Kutbak, Sakonnakhon</p>
                 </div>
             </div>
         </div>
@@ -462,6 +487,7 @@ span {
         // --- Main Navigation Logic ---
         function createNavigationDots() {
             const container = document.getElementById('dotsContainer');
+            container.innerHTML = ''; // เคลียร์จุดเดิมก่อนสร้างใหม่ป้องกันปัญหา
             for (let i = 0; i < totalSlides; i++) {
                 const dot = document.createElement('button');
                 dot.classList.add('dot');
@@ -472,40 +498,60 @@ span {
         }
 
         function goToSlide(index, isManual = false) {
-            clearTimeout(slideTimer);
-            slides[currentSlideIndex].classList.remove('active');
-            document.querySelectorAll('.dot')[currentSlideIndex].classList.remove('active');
-            currentSlideIndex = index;
-            slides[currentSlideIndex].classList.add('active');
-            document.querySelectorAll('.dot')[currentSlideIndex].classList.add('active');
-            autoScaleSlide();
-            const dynamicTime = isManual ? manualDuration : normalDuration;
-            slideTimer = setTimeout(nextSlide, dynamicTime);
+            // ทำงานเฉพาะหน้าจอคอมพิวเตอร์ (จอใหญ่กว่า 768px)
+            if (window.innerWidth > 768) {
+                clearTimeout(slideTimer);
+                slides[currentSlideIndex].classList.remove('active');
+                const dots = document.querySelectorAll('.dot');
+                if(dots[currentSlideIndex]) dots[currentSlideIndex].classList.remove('active');
+                
+                currentSlideIndex = index;
+                slides[currentSlideIndex].classList.add('active');
+                if(dots[currentSlideIndex]) dots[currentSlideIndex].active;
+                
+                autoScaleSlide();
+                const dynamicTime = isManual ? manualDuration : normalDuration;
+                slideTimer = setTimeout(nextSlide, dynamicTime);
+            }
         }
 
         function nextSlide() {
-            let nextIndex = (currentSlideIndex + 1) % totalSlides;
-            goToSlide(nextIndex, false); 
+            if (window.innerWidth > 768) {
+                let nextIndex = (currentSlideIndex + 1) % totalSlides;
+                goToSlide(nextIndex, false); 
+            }
         }
 
         function autoScaleSlide() {
-            const targetWidth = 1280;
-            const targetHeight = 720;
-            const currentWidth = window.innerWidth;
-            const scaleRatio = currentWidth / targetWidth;
-            slides.forEach(slide => {
-                slide.style.transformOrigin = 'top center';
-                slide.style.transform = `scale(${scaleRatio})`;
-            });
+            if (window.innerWidth > 768) {
+                const targetWidth = 1280;
+                const currentWidth = window.innerWidth;
+                const scaleRatio = currentWidth / targetWidth;
+                slides.forEach(slide => {
+                    slide.style.transformOrigin = 'top center';
+                    slide.style.transform = `scale(${scaleRatio})`;
+                    slide.style.position = 'absolute';
+                });
+            } else {
+                // คืนค่ารูปแบบบล็อกปกติให้มือถือ
+                slides.forEach(slide => {
+                    slide.style.transform = 'none';
+                    slide.style.position = 'relative';
+                });
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
             createNavigationDots();
             autoScaleSlide();
-            slideTimer = setTimeout(nextSlide, normalDuration);
+            if (window.innerWidth > 768) {
+                slideTimer = setTimeout(nextSlide, normalDuration);
+            }
         });
 
-        window.addEventListener('resize', autoScaleSlide);
+        window.addEventListener('resize', () => {
+            autoScaleSlide();
+        });
     </script>
 </body>
 </html>
